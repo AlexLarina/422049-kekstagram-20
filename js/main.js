@@ -22,15 +22,19 @@ var pictureTemplateElement = document.querySelector('#picture')
 
 var picturesContainerElement = document.querySelector('.pictures');
 
-var createRandom = function (max, min = 1) {
+var createRandom = function (max, min) {
+  min = (typeof min !== 'undefined') ? min : 1;
+
   return Math.round(Math.random() * (max - min) + min);
 };
 
-var chooseRandomArrayItems = (array, size) => (
-  array
-    .sort(() => Math.random() - 0.5)
-    .slice(0, size)
-);
+var chooseRandomArrayItems = function (array, size) {
+  return array
+    .sort(function () {
+      return Math.random() - 0.5;
+    })
+    .slice(0, size);
+};
 
 var createPictureData = function () {
   return {
@@ -38,11 +42,11 @@ var createPictureData = function () {
     description: 'Здесь могло быть Ваше описание.',
     likes: createRandom(LIKES.MAX, LIKES.MIN),
     comments: chooseRandomArrayItems(COMMENTS, createRandom(COMMENTS.length))
-  }
+  };
 };
 
 var createPicturesArray = function (limit) {
-  return Array.apply(null, {length: limit}).map(function() {
+  return Array.apply(null, {length: limit}).map(function () {
     return createPictureData();
   });
 };
@@ -70,6 +74,6 @@ var fillFragment = function (dataArray) {
 
 
 picturesContainerElement.appendChild(
-  fillFragment(
-    createPicturesArray(PICTURES_LIMIT)
-  ));
+    fillFragment(
+        createPicturesArray(PICTURES_LIMIT)
+    ));
