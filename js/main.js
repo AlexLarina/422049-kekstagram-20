@@ -1,6 +1,6 @@
 'use strict';
 
-var PICTURES_LIMIT = 25;
+var PICTURES_COUNT = 25;
 
 var LIKES = {
   MIN: 15,
@@ -23,8 +23,6 @@ var pictureTemplateElement = document.querySelector('#picture')
 var picturesContainerElement = document.querySelector('.pictures');
 
 var createRandom = function (max, min) {
-  min = (typeof min !== 'undefined') ? min : 1;
-
   return Math.round(Math.random() * (max - min) + min);
 };
 
@@ -36,22 +34,20 @@ var chooseRandomArrayItems = function (array, size) {
     .slice(0, size);
 };
 
-var createPictureData = function () {
+var generatePictureData = function () {
   return {
-    url: 'photos/' + createRandom(PICTURES_LIMIT) + '.jpg',
+    url: 'photos/' + createRandom(PICTURES_COUNT, 1) + '.jpg',
     description: 'Здесь могло быть Ваше описание.',
     likes: createRandom(LIKES.MAX, LIKES.MIN),
-    comments: chooseRandomArrayItems(COMMENTS, createRandom(COMMENTS.length))
+    comments: chooseRandomArrayItems(COMMENTS, createRandom(COMMENTS.length, 1))
   };
 };
 
-var createPicturesArray = function (limit) {
-  return Array.apply(null, {length: limit}).map(function () {
-    return createPictureData();
-  });
+var generatePictureDataArray = function (count) {
+  return Array(count).fill('').map(generatePictureData);
 };
 
-var createPictureNode = function (picture) {
+var createPictureElement = function (picture) {
   var pictureElement = pictureTemplateElement.cloneNode(true);
 
   pictureElement.querySelector('.picture__img').src = picture.url;
@@ -61,11 +57,11 @@ var createPictureNode = function (picture) {
   return pictureElement;
 };
 
-var fillFragment = function (dataArray) {
+var renderPictures = function (pictures) {
   var fragment = new DocumentFragment();
 
-  dataArray.forEach(function (dataItem) {
-    var node = createPictureNode(dataItem);
+  pictures.forEach(function (dataItem) {
+    var node = createPictureElement(dataItem);
     fragment.appendChild(node);
   });
 
@@ -73,7 +69,6 @@ var fillFragment = function (dataArray) {
 };
 
 
-picturesContainerElement.appendChild(
-    fillFragment(
-        createPicturesArray(PICTURES_LIMIT)
-    ));
+var pictures = renderPictures(generatePictureDataArray(PICTURES_COUNT));
+
+picturesContainerElement.appendChild(pictures);
