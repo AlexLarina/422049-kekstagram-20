@@ -1,10 +1,16 @@
 'use strict';
 
 var PICTURES_COUNT = 25;
+var COMMENTS_LIMIT_PER_PAGE = 5;
 
 var LIKES = {
   MIN: 15,
   MAX: 200
+};
+
+var AVATAR = {
+  MIN: 1,
+  MAX: 6
 };
 
 var COMMENTS = [
@@ -21,6 +27,7 @@ var pictureTemplateElement = document.querySelector('#picture')
   .querySelector('.picture');
 
 var picturesContainerElement = document.querySelector('.pictures');
+var bigPictureElement = document.querySelector('.big-picture');
 
 var createRandom = function (max, min) {
   return Math.round(Math.random() * (max - min) + min);
@@ -28,10 +35,10 @@ var createRandom = function (max, min) {
 
 var chooseRandomArrayItems = function (array, size) {
   return array
+    .slice(0, size)
     .sort(function () {
       return Math.random() - 0.5;
-    })
-    .slice(0, size);
+    });
 };
 
 var generatePictureData = function () {
@@ -57,6 +64,39 @@ var createPictureElement = function (picture) {
   return pictureElement;
 };
 
+var renderComments = function (comments) {
+  return comments.map(function (comment) {
+    return '<li class="social__comment">'
+      + '<img class="social__picture" src="img/avatar-' + createRandom(AVATAR.MAX, AVATAR.MIN) + '.svg" alt="Аватар комментатора фотографии" width="35" height="35">'
+      + '<p class="social__text">' + comment + '</p>'
+      + '</li>';
+  })
+  .join('');
+};
+
+var correctCommentEnding = function (comments) {
+  return (comments.length % 10 === 1) ? 'комментария' : 'комментариев';
+};
+
+var renderCommentsQuantity = function (comments) {
+  return ((comments.length >= 5) ? 5 : comments.length)
+   + ' из <span class="comments-count">'
+   + comments.length + '</span> '
+   + correctCommentEnding(comments);
+};
+
+var renderBigPictureElement = function (picture) {
+
+  bigPictureElement.querySelector('.big-picture__img img').src = picture.url;
+  bigPictureElement.querySelector('.likes-count').textContent = picture.likes;
+  bigPictureElement.querySelector('.social__caption').textContent = picture.description;
+
+  bigPictureElement.querySelector('.social__comment-count').innerHTML = renderCommentsQuantity(picture.comments);
+  bigPictureElement.querySelector('.social__comments').innerHTML = renderComments(picture.comments);
+
+  bigPictureElement.querySelector('.comments-loader').classList.add('hidden');
+};
+
 var renderPictures = function (pictures) {
   var fragment = new DocumentFragment();
 
@@ -72,3 +112,8 @@ var renderPictures = function (pictures) {
 var pictures = renderPictures(generatePictureDataArray(PICTURES_COUNT));
 
 picturesContainerElement.appendChild(pictures);
+
+renderBigPictureElement(generatePictureDataArray(PICTURES_COUNT)[0]);
+
+document.body.classList.add('modal-open');
+bigPictureElement.classList.remove('hidden');
