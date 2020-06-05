@@ -855,9 +855,9 @@ main {
      -ms-flex-pack: start;
    justify-content: flex-start;
 
-  -webkit-box-align: flex-start;
-     -ms-flex-align: flex-start;
-        align-items: flex-start;
+  -webkit-box-align: center;
+     -ms-flex-align: center;
+        align-items: center;
 
   border-bottom: 1px solid #cccccc;
 }
