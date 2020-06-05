@@ -79,7 +79,7 @@ var correctCommentEnding = function (comments) {
 };
 
 var renderCommentsQuantity = function (comments) {
-  return ((comments.length >= 5) ? 5 : comments.length)
+  return ((comments.length >= COMMENTS_LIMIT_PER_PAGE) ? COMMENTS_LIMIT_PER_PAGE : comments.length)
    + ' из <span class="comments-count">'
    + comments.length + '</span> '
    + correctCommentEnding(comments);
