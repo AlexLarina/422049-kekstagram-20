@@ -29,7 +29,7 @@ var pictureTemplateElement = document.querySelector('#picture')
 var picturesContainerElement = document.querySelector('.pictures');
 var bigPictureElement = document.querySelector('.big-picture');
 
-var createRandom = function (max, min) {
+var createRandom = function (min, max) {
   return Math.round(Math.random() * (max - min) + min);
 };
 
@@ -43,10 +43,10 @@ var chooseRandomArrayItems = function (array, size) {
 
 var generatePictureData = function () {
   return {
-    url: 'photos/' + createRandom(PICTURES_COUNT, 1) + '.jpg',
+    url: 'photos/' + createRandom(1, PICTURES_COUNT) + '.jpg',
     description: 'Здесь могло быть Ваше описание.',
-    likes: createRandom(LIKES.MAX, LIKES.MIN),
-    comments: chooseRandomArrayItems(COMMENTS, createRandom(COMMENTS.length, 1))
+    likes: createRandom(LIKES.MIN, LIKES.MAX),
+    comments: chooseRandomArrayItems(COMMENTS, createRandom(1, COMMENTS.length))
   };
 };
 
@@ -67,7 +67,9 @@ var createPictureElement = function (picture) {
 var renderComments = function (comments) {
   return comments.map(function (comment) {
     return '<li class="social__comment">'
-      + '<img class="social__picture" src="img/avatar-' + createRandom(AVATAR.MAX, AVATAR.MIN) + '.svg" alt="Аватар комментатора фотографии" width="35" height="35">'
+      + '<img class="social__picture" src="img/avatar-'
+      + createRandom(AVATAR.MIN, AVATAR.MAX)
+      + '.svg" alt="Аватар комментатора фотографии" width="35" height="35">'
       + '<p class="social__text">' + comment + '</p>'
       + '</li>';
   })
@@ -79,7 +81,8 @@ var correctCommentEnding = function (comments) {
 };
 
 var renderCommentsQuantity = function (comments) {
-  return ((comments.length >= COMMENTS_LIMIT_PER_PAGE) ? COMMENTS_LIMIT_PER_PAGE : comments.length)
+  return ((comments.length >= COMMENTS_LIMIT_PER_PAGE) ?
+    COMMENTS_LIMIT_PER_PAGE : comments.length)
    + ' из <span class="comments-count">'
    + comments.length + '</span> '
    + correctCommentEnding(comments);
