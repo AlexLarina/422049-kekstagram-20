@@ -66,30 +66,37 @@ var createPictureElement = function (picture) {
 
 var renderComments = function (comments) {
   return comments.map(function (comment) {
-    return '<li class="social__comment">'
+    return (
+      '<li class="social__comment">'
       + '<img class="social__picture" src="img/avatar-'
       + createRandom(AVATAR.MIN, AVATAR.MAX)
       + '.svg" alt="Аватар комментатора фотографии" width="35" height="35">'
       + '<p class="social__text">' + comment + '</p>'
-      + '</li>';
+      + '</li>'
+    );
   })
   .join('');
 };
 
-var correctCommentEnding = function (comments) {
-  return (comments.length % 10 === 1) ? 'комментария' : 'комментариев';
+var pluralize = function (quantity, variants) {
+  return quantity === 1
+    ? variants[0]
+    : variants[1];
 };
 
 var renderCommentsQuantity = function (comments) {
-  return ((comments.length >= COMMENTS_LIMIT_PER_PAGE) ?
-    COMMENTS_LIMIT_PER_PAGE : comments.length)
+  var quantity = (comments.length >= COMMENTS_LIMIT_PER_PAGE) ?
+    COMMENTS_LIMIT_PER_PAGE : comments.length;
+
+  return (
+    quantity
    + ' из <span class="comments-count">'
    + comments.length + '</span> '
-   + correctCommentEnding(comments);
+   + pluralize(comments.length, ['комментария', 'комментариев'])
+  );
 };
 
 var renderBigPictureElement = function (picture) {
-
   bigPictureElement.querySelector('.big-picture__img img').src = picture.url;
   bigPictureElement.querySelector('.likes-count').textContent = picture.likes;
   bigPictureElement.querySelector('.social__caption').textContent = picture.description;
