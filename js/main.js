@@ -22,12 +22,48 @@ var COMMENTS = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
 
+var EFFECT_RANGE = {
+  PHOBOS: {
+    MIN: 0,
+    MAX: 3
+  },
+  HEAT: {
+    MIN: 1,
+    MAX: 3
+  }
+};
+
+var SCALE = {
+  MIN: 25,
+  MAX: 100,
+  STEP: 25
+};
+
+var ESC_CODE = 27;
+
 var pictureTemplateElement = document.querySelector('#picture')
   .content
   .querySelector('.picture');
 
 var picturesContainerElement = document.querySelector('.pictures');
 var bigPictureElement = document.querySelector('.big-picture');
+
+var uploadImageElement = document.querySelector('#upload-file');
+var uploadImageFormElement = document.querySelector('.img-upload__overlay');
+var closeImageFormElement = uploadImageFormElement.querySelector('#upload-cancel');
+
+var uploadPreviewElement = uploadImageFormElement.querySelector('.img-upload__preview');
+var effectSliderElement = uploadImageFormElement.querySelector('.img-upload__effect-level');
+var effectRadioElements = uploadImageFormElement.querySelectorAll('.effects__radio');
+
+var effectPinElement = uploadImageFormElement.querySelector('.effect-level__pin');
+var effectLineElement = uploadImageFormElement.querySelector('.effect-level__line');
+var effectDepthElement = uploadImageFormElement.querySelector('.effect-level__depth');
+
+var smallerControlElement = uploadImageFormElement.querySelector('.scale__control--smaller');
+var biggerControlElement = uploadImageFormElement.querySelector('.scale__control--bigger');
+var scaleValueElement = uploadImageFormElement.querySelector('.scale__control--value');
+var uploadPreviewImgElement = uploadImageFormElement.querySelector('.img-upload__preview img');
 
 var createRandom = function (min, max) {
   return Math.round(Math.random() * (max - min) + min);
@@ -118,6 +154,107 @@ var renderPictures = function (pictures) {
   return fragment;
 };
 
+var getCurrentEffect = function () {
+  return Array.from(uploadPreviewElement.classList)
+              .find(function (className) {
+                return className.includes('effects__preview--');
+              });
+};
+
+var resetEffectsToOriginal = function (effect) {
+  if (effect === 'none') {
+    effectSliderElement.classList.add('hidden');
+    uploadPreviewElement.removeAttribute('style');
+  }
+};
+
+var removeImageEffect = function () {
+  var currentEffect = getCurrentEffect();
+  if (currentEffect) {
+    uploadPreviewElement.classList.remove(currentEffect);
+  }
+};
+
+var addImageEffect = function (effect) {
+  uploadPreviewElement.classList.add('effects__preview--' + effect);
+  effectSliderElement.classList.remove('hidden');
+  resetEffectsToOriginal(effect);
+};
+
+var setImageEffect = function (effect, depth) {
+  switch (effect) {
+    case 'chrome':
+      uploadPreviewElement.setAttribute('style',
+          'filter: grayscale(' + depth / 100 + ')');
+      break;
+    case 'sepia':
+      uploadPreviewElement.setAttribute('style',
+          'filter: sepia(' + depth / 100 + ')');
+      break;
+    case 'marvin':
+      uploadPreviewElement.setAttribute('style',
+          'filter: invert(' + depth + '%)');
+      break;
+    case 'phobos':
+      uploadPreviewElement.setAttribute('style',
+          'filter: blur('
+          + depth * (EFFECT_RANGE.PHOBOS.MAX - EFFECT_RANGE.PHOBOS.MIN) / 100
+          + 'px)');
+      break;
+    case 'heat':
+      uploadPreviewElement.setAttribute('style',
+          'filter: brightness('
+          + depth * (EFFECT_RANGE.HEAT.MAX - EFFECT_RANGE.HEAT.MIN) / 100
+          + 'px)');
+      break;
+    default:
+      uploadPreviewElement.removeAttribute('style', 'filter');
+  }
+};
+
+var addEffectListener = function () {
+  effectRadioElements.forEach(function (radioElement) {
+    radioElement.addEventListener('click', function (evt) {
+      removeImageEffect();
+      addImageEffect(evt.target.value);
+    });
+  });
+};
+
+var scalePreview = function (scale) {
+  uploadPreviewImgElement.setAttribute('style', 'transform: scale(' + scale + ')');
+};
+
+var setScaleControlValue = function (button, currentScale) {
+  switch (button) {
+    case 'small':
+      scaleValueElement.value = currentScale > SCALE.MIN ?
+        currentScale - SCALE.STEP :
+        SCALE.MIN;
+      break;
+    case 'big':
+      scaleValueElement.value = currentScale < SCALE.MAX ?
+        currentScale + SCALE.STEP :
+        SCALE.MAX;
+      break;
+  }
+};
+
+var rescaleHandler = function (button) {
+  var currentScaleValue = parseInt(scaleValueElement.value, 10);
+  setScaleControlValue(button, currentScaleValue);
+  scalePreview(scaleValueElement.value / 100);
+  scaleValueElement.value += '%';
+};
+
+var showUploadFormHandler = function () {
+  uploadImageFormElement.classList.remove('hidden');
+};
+
+var closeUploadFormHandler = function () {
+  uploadImageFormElement.classList.add('hidden');
+  uploadImageElement.value = '';
+};
 
 var pictures = renderPictures(generatePictureDataArray(PICTURES_COUNT));
 
@@ -125,5 +262,27 @@ picturesContainerElement.appendChild(pictures);
 
 renderBigPictureElement(generatePictureDataArray(PICTURES_COUNT)[0]);
 
-document.body.classList.add('modal-open');
-bigPictureElement.classList.remove('hidden');
+uploadImageElement.addEventListener('change', showUploadFormHandler);
+closeImageFormElement.addEventListener('click', closeUploadFormHandler);
+
+document.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ESC_CODE) {
+    closeUploadFormHandler();
+  }
+});
+
+addEffectListener();
+
+effectPinElement.addEventListener('mouseup', function () {
+  var effectDepthPersentage = Math.round(effectDepthElement.offsetWidth * 100 / effectLineElement.offsetWidth);
+  var currentEffect = getCurrentEffect().split('--')[1];
+  setImageEffect(currentEffect, effectDepthPersentage);
+});
+
+smallerControlElement.addEventListener('click', function () {
+  rescaleHandler('small');
+});
+
+biggerControlElement.addEventListener('click', function () {
+  rescaleHandler('big');
+});
