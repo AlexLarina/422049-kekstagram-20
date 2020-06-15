@@ -46,6 +46,10 @@ var ScaleContol = {
 
 var KEY_ESCAPE = 'Escape';
 
+var hashtagRegex = /^#[a-zа-я0-9]{1,19}$/gm;
+
+var HASHTAGS_LIMIT = 5;
+
 var Effects = {
   CHROME: 'chrome',
   SEPIA: 'sepia',
@@ -295,10 +299,6 @@ var tuneEffectDepthHandler = function () {
                         .split('--')[1];
   setImageEffect(currentEffect, effectDepthPersentage);
 };
-
-var hashtagRegex = /^#[a-zа-я0-9]{1,19}$/gm;
-
-var HASHTAGS_LIMIT = 5;
 
 var validateHashtagsQuantity = function (hashtags) {
   var validityMessage = (hashtags.length > HASHTAGS_LIMIT) ?
