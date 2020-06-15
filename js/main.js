@@ -2,6 +2,8 @@
 
 var PICTURES_COUNT = 25;
 var COMMENTS_LIMIT_PER_PAGE = 5;
+var HASHTAGS_LIMIT = 5;
+var KEY_ESCAPE = 'Escape';
 
 var LIKES = {
   MIN: 15,
@@ -44,12 +46,6 @@ var ScaleContol = {
   BIG: 'bigger'
 };
 
-var KEY_ESCAPE = 'Escape';
-
-var hashtagRegex = /^#[a-zа-я0-9]{1,19}$/gm;
-
-var HASHTAGS_LIMIT = 5;
-
 var Effects = {
   CHROME: 'chrome',
   SEPIA: 'sepia',
@@ -57,6 +53,14 @@ var Effects = {
   PHOBOS: 'phobos',
   HEAT: 'heat'
 };
+
+var HashtagRegex = {
+  '^#.*$': 'Первый символ тега должен быть #. ',
+  '^#[a-zA-Zа-яА-я0-9]*$': 'Тег может состоять только из букв или цифр. ',
+  '^.{2,}$': 'Тег не может состоять только из символа #. ',
+  '^.{0,20}$': 'Максимальная длина одного тега 20 символов, включая #. '
+};
+
 
 var pictureTemplateElement = document.querySelector('#picture')
   .content
@@ -301,10 +305,9 @@ var tuneEffectDepthHandler = function () {
 };
 
 var validateHashtagsQuantity = function (hashtags) {
-  var validityMessage = (hashtags.length > HASHTAGS_LIMIT) ?
+  return (hashtags.length > HASHTAGS_LIMIT) ?
     'Укажите не более ' + HASHTAGS_LIMIT + ' тегов' :
     '';
-  return validityMessage;
 };
 
 var validateUniqueHashtags = function (hashtags) {
@@ -312,29 +315,45 @@ var validateUniqueHashtags = function (hashtags) {
     return tag.toLowerCase();
   });
 
-  var validityMessage = (hashtagsLowerCase.length === new Set(hashtagsLowerCase).size) ?
-    'Теги не должны повторяться' :
-    '';
-
-  return validityMessage;
+  return (hashtagsLowerCase.length === new Set(hashtagsLowerCase).size) ?
+    '' :
+    'Теги не должны повторяться';
 };
 
+var applyHashtagValidationRegex = function (tag) {
+  var errorRegex = Object.keys(HashtagRegex).find(function (regex) {
+    return (new RegExp(regex).test(tag) === false);
+  });
+
+  return errorRegex;
+};
+
+var validateHashTagArray = function (hashtags) {
+  var badTag = hashtags.find(function (tag) {
+    return applyHashtagValidationRegex(tag);
+  });
+
+  if (badTag) {
+    return HashtagRegex[applyHashtagValidationRegex(badTag)];
+  }
+
+  return null;
+};
 
 var hashtagValidationHandler = function (evt) {
   var hashtags = evt.target.value
   .trim()
   .split(' ');
 
-  hashtagsInputElement.setCustomValidity(validateHashtagsQuantity(hashtags));
-  hashtagsInputElement.setCustomValidity(validateUniqueHashtags(hashtags));
-
-  hashtags.forEach(function (tag) {
-    if (hashtagRegex.test(tag) === false) {
-      hashtagsInputElement.setCustomValidity('Проверь свои кривые теги');
-    } else {
-      hashtagsInputElement.setCustomValidity('');
-    }
-  });
+  if (validateHashtagsQuantity(hashtags)) {
+    hashtagsInputElement.setCustomValidity(validateHashtagsQuantity(hashtags));
+  } else if (validateUniqueHashtags(hashtags)) {
+    hashtagsInputElement.setCustomValidity(validateUniqueHashtags(hashtags));
+  } else if (validateHashTagArray(hashtags)) {
+    hashtagsInputElement.setCustomValidity(validateHashTagArray(hashtags));
+  } else {
+    hashtagsInputElement.setCustomValidity('');
+  }
 };
 
 var showUploadFormHandler = function () {
