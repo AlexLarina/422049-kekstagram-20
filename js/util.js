@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var KEY_ESCAPE = 'Escape';
+
   var pluralize = function (quantity, variants) {
     return quantity === 1
       ? variants[0]
@@ -16,7 +18,8 @@
 
   window.util = {
     pluralize: pluralize,
-    getModificator: getModificator
+    getModificator: getModificator,
+    KEY_ESCAPE: KEY_ESCAPE
   };
 
 })();

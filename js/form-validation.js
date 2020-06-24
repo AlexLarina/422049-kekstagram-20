@@ -10,7 +10,6 @@
     '^.{0,20}$': 'Максимальная длина одного тега 20 символов, включая #. '
   };
 
-  // duplicates in main.js
   var uploadImageFormElement = document.querySelector('.img-upload__overlay');
   var hashtagsInputElement = uploadImageFormElement.querySelector('.text__hashtags');
 
@@ -25,7 +24,12 @@
       return tag.toLowerCase();
     });
 
-    return (hashtagsLowerCase.length === new Set(hashtagsLowerCase).size) ?
+    var hashtagObj = {};
+    hashtagsLowerCase.map(function (tag) {
+      hashtagObj[tag] = '';
+    });
+
+    return (hashtagsLowerCase.length === Object.keys(hashtagObj).length) ?
       '' :
       'Теги не должны повторяться';
   };

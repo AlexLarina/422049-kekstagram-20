@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-  // duplicates in form and main
   var uploadImageFormElement = document.querySelector('.img-upload__overlay');
 
   var uploadPreviewImgElement = uploadImageFormElement.querySelector('.img-upload__preview img');

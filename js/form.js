@@ -1,10 +1,7 @@
 'use strict';
 
 (function () {
-  var KEY_ESCAPE = 'Escape';
-  // duplicates in main.js
   var uploadImageElement = document.querySelector('#upload-file');
-  // duplicates in main.js
   var uploadImageFormElement = document.querySelector('.img-upload__overlay');
 
   var effectsFieldsetElement = uploadImageFormElement.querySelector('.img-upload__effects');
@@ -19,7 +16,7 @@
   };
 
   var closeEscUploadFormHandler = function (evt) {
-    if (evt.key === KEY_ESCAPE) {
+    if (evt.key === window.util.KEY_ESCAPE) {
       closeUploadFormHandler();
     }
   };

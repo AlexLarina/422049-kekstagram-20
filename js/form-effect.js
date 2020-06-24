@@ -20,7 +20,6 @@
     HEAT: 'heat'
   };
 
-  // duplicates in form
   var uploadImageFormElement = document.querySelector('.img-upload__overlay');
 
   var uploadPreviewElement = uploadImageFormElement.querySelector('.img-upload__preview');
