@@ -13,6 +13,13 @@
   .querySelector('.picture');
   var bigPictureElement = document.querySelector('.big-picture');
 
+  var removeAllPictures = function (node) {
+    var pictures = node.querySelectorAll('.picture');
+    pictures.forEach(function (picture) {
+      node.removeChild(picture);
+    });
+  };
+
   var createPictureElement = function (picture) {
     var pictureElement = pictureTemplateElement.cloneNode(true);
 
@@ -71,8 +78,16 @@
     return fragment;
   };
 
+  var updatePictures = function (container, pictures) {
+    var updatedPictures = renderPictures(pictures);
+
+    removeAllPictures(container);
+    container.appendChild(updatedPictures);
+  };
+
   window.pictures = {
     render: renderPictures,
-    renderBigElement: renderBigPictureElement
+    renderBigElement: renderBigPictureElement,
+    updatePictures: updatePictures
   };
 })();
