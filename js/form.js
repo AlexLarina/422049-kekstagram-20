@@ -9,6 +9,7 @@
   var scaleFieldsetElement = uploadImageFormElement.querySelector('.img-upload__scale');
   // duplicates in form-validation
   var hashtagsInputElement = uploadImageFormElement.querySelector('.text__hashtags');
+  var commentInputElement = uploadImageFormElement.querySelector('.text__description');
 
   var resetUploadForm = function () {
     window.formEffect.setOriginal();
@@ -33,6 +34,8 @@
     document.addEventListener('keydown', closeEscUploadFormHandler);
 
     hashtagsInputElement.addEventListener('input', window.formValidation.hashtag);
+
+    commentInputElement.addEventListener('blur', window.formValidation.commentValidationHandler);
   };
 
   var closeUploadFormHandler = function () {
@@ -50,6 +53,8 @@
     document.removeEventListener('keydown', closeEscUploadFormHandler);
 
     hashtagsInputElement.removeEventListener('input', window.formValidation.hashtag);
+
+    commentInputElement.removeEventListener('blur', window.formValidation.commentValidationHandler);
   };
 
   window.form = {

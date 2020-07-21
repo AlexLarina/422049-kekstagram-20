@@ -2,6 +2,7 @@
 
 (function () {
   var HASHTAGS_LIMIT = 5;
+  var MAX_COMMENT_LENGTH = 140;
 
   var HashtagRegex = {
     '^#.*$': 'Первый символ тега должен быть #. ',
@@ -12,6 +13,7 @@
 
   var uploadImageFormElement = document.querySelector('.img-upload__overlay');
   var hashtagsInputElement = uploadImageFormElement.querySelector('.text__hashtags');
+  var commentInputElement = uploadImageFormElement.querySelector('.text__description');
 
   var validateHashtagsQuantity = function (hashtags) {
     return (hashtags.length > HASHTAGS_LIMIT) ?
@@ -70,7 +72,24 @@
     }
   };
 
+  var validateCommentLength = function (comment) {
+    return (comment.length >= MAX_COMMENT_LENGTH) ?
+      'Длина комментария не должна превышать' + MAX_COMMENT_LENGTH + ' символов' :
+      '';
+  };
+
+  var commentValidationHandler = function (evt) {
+    var comment = evt.target.value;
+
+    if (validateCommentLength(comment)) {
+      commentInputElement.setCustomValidity(validateCommentLength(comment));
+    } else {
+      commentInputElement.setCustomValidity('');
+    }
+  };
+
   window.formValidation = {
-    hashtag: hashtagValidationHandler
+    hashtag: hashtagValidationHandler,
+    commentValidationHandler: commentValidationHandler
   };
 })();

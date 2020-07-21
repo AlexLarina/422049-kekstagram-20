@@ -3,15 +3,12 @@
 (function () {
   var COMMENTS_LIMIT_PER_PAGE = 5;
 
-  var AVATAR = {
-    MIN: 1,
-    MAX: 6
-  };
-
   var pictureTemplateElement = document.querySelector('#picture')
   .content
   .querySelector('.picture');
+
   var bigPictureElement = document.querySelector('.big-picture');
+  var bigPictureCloseElement = bigPictureElement.querySelector('.big-picture__cancel');
 
   var removeAllPictures = function (node) {
     var pictures = node.querySelectorAll('.picture');
@@ -27,6 +24,17 @@
     pictureElement.querySelector('.picture__likes').textContent = picture.likes;
     pictureElement.querySelector('.picture__comments').textContent = picture.comments.length;
 
+    pictureElement.addEventListener('click', function () {
+      renderBigPictureElement(picture);
+      bigPictureElement.classList.remove('hidden');
+    });
+
+    document.addEventListener('keydown', function (evt) {
+      if (evt.key === window.util.KEY_ESCAPE) {
+        bigPictureElement.classList.add('hidden');
+      }
+    });
+
     return pictureElement;
   };
 
@@ -34,10 +42,10 @@
     return comments.map(function (comment) {
       return (
         '<li class="social__comment">'
-        + '<img class="social__picture" src="img/avatar-'
-        + window.random.create(AVATAR.MIN, AVATAR.MAX)
-        + '.svg" alt="Аватар комментатора фотографии" width="35" height="35">'
-        + '<p class="social__text">' + comment + '</p>'
+        + '<img class="social__picture" src="'
+        + comment.avatar
+        + '" alt="Аватар комментатора фотографии" width="35" height="35">'
+        + '<p class="social__text">' + comment.message + '</p>'
         + '</li>'
       );
     })
@@ -65,6 +73,10 @@
     bigPictureElement.querySelector('.social__comments').innerHTML = renderComments(picture.comments);
 
     bigPictureElement.querySelector('.comments-loader').classList.add('hidden');
+
+    bigPictureCloseElement.addEventListener('click', function () {
+      bigPictureElement.classList.add('hidden');
+    });
   };
 
   var renderPictures = function (pictures) {
@@ -87,7 +99,6 @@
 
   window.pictures = {
     render: renderPictures,
-    renderBigElement: renderBigPictureElement,
     updatePictures: updatePictures
   };
 })();
