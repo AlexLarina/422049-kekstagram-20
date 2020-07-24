@@ -26,6 +26,7 @@
   var effectSliderElement = uploadImageFormElement.querySelector('.img-upload__effect-level');
   var effectLineElement = uploadImageFormElement.querySelector('.effect-level__line');
   var effectDepthElement = uploadImageFormElement.querySelector('.effect-level__depth');
+  var effectPinElement = uploadImageFormElement.querySelector('.effect-level__pin');
 
   var removePreviousImageEffect = function () {
     var currentEffect = window.util.getModificator(uploadPreviewElement, 'effects__preview--');
@@ -42,6 +43,7 @@
 
   var addImageEffect = function (effect) {
     uploadPreviewElement.classList.add('effects__preview--' + effect);
+    setFullEffectDepth();
     effectSliderElement.classList.remove('hidden');
 
     if (effect === 'none') {
@@ -80,6 +82,12 @@
     }
   };
 
+  var setFullEffectDepth = function () {
+    effectPinElement.style.left = '100%';
+    effectDepthElement.style.width = '100%';
+    tuneEffectDepthHandler();
+  };
+
   var tuneEffectDepthHandler = function () {
     var effectDepthPersentage = Math.round(
         effectDepthElement.offsetWidth * 100 / effectLineElement.offsetWidth
@@ -97,6 +105,38 @@
       addImageEffect(evt.target.value);
     }
   };
+
+  effectPinElement.addEventListener('mousedown', function (evt) {
+    evt.preventDefault();
+
+    var startXCoord = evt.clientX;
+    var lineWidth = effectLineElement.offsetWidth;
+    var pinElementLeftOffset = effectPinElement.offsetLeft;
+
+    var onMouseMove = function (moveEvt) {
+      moveEvt.preventDefault();
+
+      var shift = moveEvt.clientX - startXCoord;
+      var pinPercentProperty = (pinElementLeftOffset + shift) * 100 / lineWidth;
+
+      pinPercentProperty = (pinPercentProperty < 0) ? 0 : pinPercentProperty;
+      pinPercentProperty = (pinPercentProperty > 100) ? 100 : pinPercentProperty;
+
+      effectPinElement.style.left = pinPercentProperty + '%';
+      effectDepthElement.style.width = pinPercentProperty + '%';
+      tuneEffectDepthHandler();
+    };
+
+    var onMouseUp = function (upEvt) {
+      upEvt.preventDefault();
+
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+    };
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  });
 
   window.formEffect = {
     apply: applyEffectHandler,
