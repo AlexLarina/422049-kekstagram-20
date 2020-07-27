@@ -8,7 +8,7 @@
   var effectsFieldsetElement = uploadImageOverlayElement.querySelector('.img-upload__effects');
   var effectPinElement = uploadImageOverlayElement.querySelector('.effect-level__pin');
   var scaleFieldsetElement = uploadImageOverlayElement.querySelector('.img-upload__scale');
-  // duplicates in form-validation
+
   var hashtagsInputElement = uploadImageOverlayElement.querySelector('.text__hashtags');
   var commentInputElement = uploadImageOverlayElement.querySelector('.text__description');
 

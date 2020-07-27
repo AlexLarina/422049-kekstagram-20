@@ -2,12 +2,12 @@
 
 (function () {
   var successModalTemplateElement = document.querySelector('#success')
-  .content
-  .querySelector('.success');
+    .content
+    .querySelector('.success');
 
   var errorModalTemplateElement = document.querySelector('#error')
-  .content
-  .querySelector('.error');
+    .content
+    .querySelector('.error');
 
   var renderSuccessModalElement = function () {
     var successModalElement = successModalTemplateElement.cloneNode(true);
