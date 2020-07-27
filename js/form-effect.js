@@ -20,13 +20,13 @@
     HEAT: 'heat'
   };
 
-  var uploadImageFormElement = document.querySelector('.img-upload__overlay');
+  var uploadImageOverlayElement = document.querySelector('.img-upload__overlay');
 
-  var uploadPreviewElement = uploadImageFormElement.querySelector('.img-upload__preview');
-  var effectSliderElement = uploadImageFormElement.querySelector('.img-upload__effect-level');
-  var effectLineElement = uploadImageFormElement.querySelector('.effect-level__line');
-  var effectDepthElement = uploadImageFormElement.querySelector('.effect-level__depth');
-  var effectPinElement = uploadImageFormElement.querySelector('.effect-level__pin');
+  var uploadPreviewElement = uploadImageOverlayElement.querySelector('.img-upload__preview');
+  var effectSliderElement = uploadImageOverlayElement.querySelector('.img-upload__effect-level');
+  var effectLineElement = uploadImageOverlayElement.querySelector('.effect-level__line');
+  var effectDepthElement = uploadImageOverlayElement.querySelector('.effect-level__depth');
+  var effectPinElement = uploadImageOverlayElement.querySelector('.effect-level__pin');
 
   var removePreviousImageEffect = function () {
     var currentEffect = window.util.getModificator(uploadPreviewElement, 'effects__preview--');

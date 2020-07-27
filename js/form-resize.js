@@ -1,10 +1,10 @@
 'use strict';
 
 (function () {
-  var uploadImageFormElement = document.querySelector('.img-upload__overlay');
+  var uploadImageOverlayElement = document.querySelector('.img-upload__overlay');
 
-  var uploadPreviewImgElement = uploadImageFormElement.querySelector('.img-upload__preview img');
-  var scaleValueElement = uploadImageFormElement.querySelector('.scale__control--value');
+  var uploadPreviewImgElement = uploadImageOverlayElement.querySelector('.img-upload__preview img');
+  var scaleValueElement = uploadImageOverlayElement.querySelector('.scale__control--value');
 
   var SCALE = {
     MIN: 25,

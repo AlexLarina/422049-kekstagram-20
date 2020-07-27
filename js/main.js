@@ -5,8 +5,8 @@
   var picturesContainerElement = document.querySelector('.pictures');
 
   var uploadImageElement = document.querySelector('#upload-file');
-  var uploadImageFormElement = document.querySelector('.img-upload__overlay');
-  var closeImageFormElement = uploadImageFormElement.querySelector('#upload-cancel');
+  var uploadImageOverlayElement = document.querySelector('.img-upload__overlay');
+  var closeImageFormElement = uploadImageOverlayElement.querySelector('#upload-cancel');
   var filtersFormElement = document.querySelector('.img-filters__form');
 
   var onError = function () {

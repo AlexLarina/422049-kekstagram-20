@@ -94,8 +94,6 @@
   };
 
   var loadCommentsHandler = function (comments, endIndex) {
-    console.log('endIndex = ' + endIndex);
-    console.log('comments.len = ' + comments.length);
     if (comments.length < endIndex) {
       endIndex = comments.length;
       hideLoader();
@@ -110,7 +108,6 @@
 
   var renderBigPictureElement = function (picture) {
     var endCommentIndex = COMMENTS_LIMIT_PER_PAGE;
-    console.log(endCommentIndex);
 
     bigPictureElement.querySelector('.big-picture__img img').src = picture.url;
     bigPictureElement.querySelector('.likes-count').textContent = picture.likes;
@@ -120,7 +117,7 @@
     showComments(picture.comments);
 
 
-    //bigPictureCommentLoaderElement.classList.remove('hidden');
+    // bigPictureCommentLoaderElement.classList.remove('hidden');
 
     bigPictureCommentLoaderElement.addEventListener('click', function () {
       endCommentIndex += COMMENTS_LIMIT_PER_PAGE;
