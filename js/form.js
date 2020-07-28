@@ -74,6 +74,10 @@
         function () {
           closeUploadFormHandler();
           window.modals.showSuccess();
+        },
+        function () {
+          closeUploadFormHandler();
+          window.modals.showError();
         }
     );
     evt.preventDefault();
