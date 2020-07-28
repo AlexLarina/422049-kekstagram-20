@@ -45,10 +45,7 @@
     evt.target.classList.add('img-filters__button--active');
 
     var filteredData = window.filter.filtratePictures(filterName, data);
-
-    window.debounce(function () {
-      window.pictures.updatePictures(container, filteredData);
-    });
+    window.pictures.updatePictures(container, filteredData);
   };
 
   window.filter = {

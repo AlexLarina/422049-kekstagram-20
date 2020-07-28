@@ -9,6 +9,10 @@
   var closeImageFormElement = uploadImageOverlayElement.querySelector('#upload-cancel');
   var filtersFormElement = document.querySelector('.img-filters__form');
 
+  var filtratePicturesHandler = window.debounce(function (evt, data) {
+    window.filter.filterClickHandler(evt, data, picturesContainerElement);
+  });
+
   var onError = function () {
 
   };
@@ -20,7 +24,7 @@
     window.filter.showFilters();
 
     filtersFormElement.addEventListener('click', function (evt) {
-      window.filter.filterClickHandler(evt, data, picturesContainerElement);
+      filtratePicturesHandler(evt, data);
     });
   };
 
