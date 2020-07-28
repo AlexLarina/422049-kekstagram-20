@@ -22,13 +22,10 @@
   };
 
   var validateUniqueHashtags = function (hashtags) {
-    var hashtagsLowerCase = hashtags.map(function (tag) {
-      return tag.toLowerCase();
-    });
-
     var hashtagObj = {};
-    hashtagsLowerCase.map(function (tag) {
-      hashtagObj[tag] = '';
+
+    var hashtagsLowerCase = hashtags.map(function (tag) {
+      hashtagObj[tag.toLowerCase()] = '';
     });
 
     return (hashtagsLowerCase.length === Object.keys(hashtagObj).length) ?
