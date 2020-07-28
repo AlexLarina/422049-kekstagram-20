@@ -38,6 +38,14 @@
     hashtagsInputElement.addEventListener('input', window.formValidation.hashtag);
 
     commentInputElement.addEventListener('blur', window.formValidation.commentValidationHandler);
+
+    commentInputElement.addEventListener('focus', function () {
+      document.removeEventListener('keydown', closeEscUploadFormHandler);
+    });
+
+    commentInputElement.addEventListener('blur', function () {
+      document.addEventListener('keydown', closeEscUploadFormHandler);
+    });
   };
 
   var closeUploadFormHandler = function () {
@@ -57,6 +65,7 @@
     hashtagsInputElement.removeEventListener('input', window.formValidation.hashtag);
 
     commentInputElement.removeEventListener('blur', window.formValidation.commentValidationHandler);
+
   };
 
   uploadImageFormElement.addEventListener('submit', function (evt) {
