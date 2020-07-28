@@ -21,18 +21,6 @@
       '';
   };
 
-  var validateUniqueHashtags = function (hashtags) {
-    var hashtagObj = {};
-
-    var hashtagsLowerCase = hashtags.map(function (tag) {
-      hashtagObj[tag.toLowerCase()] = '';
-    });
-
-    return (hashtagsLowerCase.length === Object.keys(hashtagObj).length) ?
-      '' :
-      'Теги не должны повторяться';
-  };
-
   var applyHashtagValidationRegex = function (tag) {
     var errorRegex = Object.keys(HashtagRegex).find(function (regex) {
       return (new RegExp(regex).test(tag) === false);
@@ -41,29 +29,36 @@
     return errorRegex;
   };
 
-  var validateHashTagArray = function (hashtags) {
-    var badTag = hashtags.find(function (tag) {
-      return applyHashtagValidationRegex(tag);
-    });
-
-    if (badTag) {
-      return HashtagRegex[applyHashtagValidationRegex(badTag)];
-    }
-
-    return null;
-  };
-
   var hashtagValidationHandler = function (evt) {
     var hashtags = evt.target.value
     .trim()
     .split(' ');
 
-    if (validateHashtagsQuantity(hashtags)) {
-      hashtagsInputElement.setCustomValidity(validateHashtagsQuantity(hashtags));
-    } else if (validateUniqueHashtags(hashtags)) {
-      hashtagsInputElement.setCustomValidity(validateUniqueHashtags(hashtags));
-    } else if (validateHashTagArray(hashtags)) {
-      hashtagsInputElement.setCustomValidity(validateHashTagArray(hashtags));
+    var errorMessage = null;
+
+    errorMessage = validateHashtagsQuantity(hashtags);
+
+    for (var i = 0; i < hashtags.length; i++) {
+      var tag = hashtags[i];
+
+      for (var j = 0; j < i; j++) {
+        if (hashtags[j] === tag) {
+          errorMessage = 'Одинаковые теги';
+          break;
+        }
+      }
+
+      if (applyHashtagValidationRegex(tag)) {
+        errorMessage = HashtagRegex[applyHashtagValidationRegex(tag)];
+      }
+
+      if (errorMessage) {
+        break;
+      }
+    }
+
+    if (errorMessage) {
+      hashtagsInputElement.setCustomValidity(errorMessage);
     } else {
       hashtagsInputElement.setCustomValidity('');
     }
