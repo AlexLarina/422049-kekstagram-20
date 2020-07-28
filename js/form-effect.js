@@ -86,7 +86,7 @@
             + ')');
         break;
       default:
-        uploadPreviewElement.removeAttribute('style', 'filter');
+        uploadPreviewElement.removeAttribute('style');
     }
   };
 
