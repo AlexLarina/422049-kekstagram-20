@@ -20,9 +20,7 @@
     window.filter.showFilters();
 
     filtersFormElement.addEventListener('click', function (evt) {
-      window.debounce(
-          window.filter.filterClickHandler(evt, data, picturesContainerElement)
-      );
+      window.filter.filterClickHandler(evt, data, picturesContainerElement);
     });
   };
 
