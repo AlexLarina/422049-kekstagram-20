@@ -78,11 +78,10 @@
   var commentValidationHandler = function (evt) {
     var comment = evt.target.value;
 
-    if (validateCommentLength(comment)) {
-      commentInputElement.setCustomValidity(validateCommentLength(comment));
-    } else {
-      commentInputElement.setCustomValidity('');
-    }
+    var validityMessage = validateCommentLength(comment) ?
+      validateCommentLength(comment) : '';
+
+    commentInputElement.setCustomValidity(validityMessage);
   };
 
   window.formValidation = {
