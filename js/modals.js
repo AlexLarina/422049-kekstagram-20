@@ -31,16 +31,17 @@
     return errorModalElement;
   };
 
-  var addModalCloseHandlers = function (modal) {
-    document.addEventListener('keydown', function (evt) {
-      if (evt.key === window.util.KEY_ESCAPE) {
-        modal.remove();
-      }
-    });
-
-    document.addEventListener('click', function () {
+  var closeEscModalHandler = function (evt, modal) {
+    if (evt.key === window.util.KEY_ESCAPE) {
       modal.remove();
-    });
+
+      document.removeEventListener('keydown', closeEscModalHandler);
+    }
+  };
+
+  var closeClickModalHandler = function (modal) {
+    modal.remove();
+    document.removeEventListener('click', closeClickModalHandler);
   };
 
   var showSuccessModalElement = function () {
@@ -48,7 +49,13 @@
 
     document.body.appendChild(successModalElement);
 
-    addModalCloseHandlers(successModalElement);
+    document.addEventListener('keydown', function (evt) {
+      closeEscModalHandler(evt, successModalElement);
+    });
+
+    document.addEventListener('click', function () {
+      closeClickModalHandler(successModalElement);
+    });
   };
 
   var showErrorModalElement = function () {
@@ -56,7 +63,13 @@
 
     document.body.appendChild(errorModalElement);
 
-    addModalCloseHandlers(errorModalElement);
+    document.addEventListener('keydown', function (evt) {
+      closeEscModalHandler(evt, errorModalElement);
+    });
+
+    document.addEventListener('click', function () {
+      closeClickModalHandler(errorModalElement);
+    });
   };
 
   window.modals = {
