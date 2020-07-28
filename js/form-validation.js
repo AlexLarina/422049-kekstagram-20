@@ -86,7 +86,7 @@
   };
 
   window.formValidation = {
-    hashtag: hashtagValidationHandler,
+    hashtagValidationHandler: hashtagValidationHandler,
     commentValidationHandler: commentValidationHandler
   };
 })();

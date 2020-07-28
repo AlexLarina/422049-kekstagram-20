@@ -2,6 +2,7 @@
 
 (function () {
   var RANDOM_COUNT = 10;
+
   var showFilters = function () {
     var filtersContainer = document.querySelector('.img-filters');
     filtersContainer.classList.remove('img-filters--inactive');
@@ -49,7 +50,7 @@
   };
 
   window.filter = {
-    showFilters: showFilters,
+    show: showFilters,
     filtratePictures: filtratePictures,
     filterClickHandler: filterClickHandler
   };

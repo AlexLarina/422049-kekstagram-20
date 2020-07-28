@@ -27,15 +27,15 @@
   var showUploadFormHandler = function () {
     uploadImageOverlayElement.classList.remove('hidden');
 
-    effectsFieldsetElement.addEventListener('click', window.formEffect.apply);
+    effectsFieldsetElement.addEventListener('click', window.formEffect.applyEffectHandler);
 
-    effectPinElement.addEventListener('mouseup', window.formEffect.tuneDepth);
+    effectPinElement.addEventListener('mouseup', window.formEffect.tuneEffectDepthHandler);
 
-    scaleFieldsetElement.addEventListener('click', window.formResize.preview);
+    scaleFieldsetElement.addEventListener('click', window.formResize.resizePreviewHandler);
 
     document.addEventListener('keydown', closeEscUploadFormHandler);
 
-    hashtagsInputElement.addEventListener('input', window.formValidation.hashtag);
+    hashtagsInputElement.addEventListener('input', window.formValidation.hashtagValidationHandler);
 
     commentInputElement.addEventListener('blur', window.formValidation.commentValidationHandler);
 
@@ -54,15 +54,15 @@
 
     resetUploadForm();
 
-    effectsFieldsetElement.removeEventListener('click', window.formEffect.apply);
+    effectsFieldsetElement.removeEventListener('click', window.formEffect.applyEffectHandler);
 
-    effectPinElement.removeEventListener('mouseup', window.formEffect.tuneDepth);
+    effectPinElement.removeEventListener('mouseup', window.formEffect.tuneEffectDepthHandler);
 
-    scaleFieldsetElement.removeEventListener('click', window.formResize.preview);
+    scaleFieldsetElement.removeEventListener('click', window.formResize.resizePreviewHandler);
 
     document.removeEventListener('keydown', closeEscUploadFormHandler);
 
-    hashtagsInputElement.removeEventListener('input', window.formValidation.hashtag);
+    hashtagsInputElement.removeEventListener('input', window.formValidation.hashtagValidationHandler);
 
     commentInputElement.removeEventListener('blur', window.formValidation.commentValidationHandler);
 
@@ -84,8 +84,8 @@
   });
 
   window.form = {
-    show: showUploadFormHandler,
-    close: closeUploadFormHandler
+    showFormHandler: showUploadFormHandler,
+    closeFormHandler: closeUploadFormHandler
   };
 
 })();

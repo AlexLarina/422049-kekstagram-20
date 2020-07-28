@@ -60,7 +60,7 @@
   };
 
   window.formResize = {
-    preview: resizePreviewHandler,
+    resizePreviewHandler: resizePreviewHandler,
     toDefault: resetScaleToDefault
   };
 })();

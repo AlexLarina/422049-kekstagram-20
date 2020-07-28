@@ -148,8 +148,8 @@
   });
 
   window.formEffect = {
-    apply: applyEffectHandler,
-    tuneDepth: tuneEffectDepthHandler,
+    applyEffectHandler: applyEffectHandler,
+    tuneEffectDepthHandler: tuneEffectDepthHandler,
     setOriginal: setOriginalEffect
   };
 })();
