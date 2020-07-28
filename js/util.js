@@ -16,9 +16,16 @@
                 });
   };
 
+  var removeAllChildren = function (node) {
+    while (node.firstChild) {
+      node.removeChild(node.lastChild);
+    }
+  };
+
   window.util = {
     pluralize: pluralize,
     getModificator: getModificator,
+    removeAllChildren: removeAllChildren,
     KEY_ESCAPE: KEY_ESCAPE
   };
 

@@ -35,18 +35,31 @@
     return pictureElement;
   };
 
+  var createCommentNode = function () {
+    var commentContainer = document.createElement('div');
+    var commentHtmlString = '<li class="social__comment"><img class="social__picture" src="" alt="Аватар комментатора фотографии" width="35" height="35"><p class="social__text"></p></li>';
+
+    commentContainer.innerHTML = commentHtmlString;
+
+    return commentContainer.firstChild;
+  };
+
+  var renderComment = function (data) {
+    var comment = createCommentNode();
+    comment.querySelector('.social__picture').src = data.avatar;
+    comment.querySelector('.social__text').textContent = data.message;
+
+    return comment;
+  };
+
   var renderComments = function (comments) {
-    return comments.map(function (comment) {
-      return (
-        '<li class="social__comment">'
-        + '<img class="social__picture" src="'
-        + comment.avatar
-        + '" alt="Аватар комментатора фотографии" width="35" height="35">'
-        + '<p class="social__text">' + comment.message + '</p>'
-        + '</li>'
-      );
-    })
-    .join('');
+    var fragment = new DocumentFragment();
+
+    comments.forEach(function (commentData) {
+      fragment.appendChild(renderComment(commentData));
+    });
+
+    return fragment;
   };
 
   var renderCommentsQuantity = function (currentAmount, totalAmount) {
@@ -118,13 +131,15 @@
   };
 
   var showComments = function (comments, amount) {
+    window.util.removeAllChildren(bigPictureCommentContainerElement);
+
     if (amount === comments.length) {
       hideLoader();
     }
 
     bigPictureElement.querySelector('.social__comment-count').innerHTML =
       renderCommentsQuantity(amount, comments.length);
-    bigPictureCommentContainerElement.innerHTML = renderComments(comments.slice(0, amount));
+    bigPictureCommentContainerElement.appendChild(renderComments(comments.slice(0, amount)));
   };
 
   var renderPictures = function (pictures) {
