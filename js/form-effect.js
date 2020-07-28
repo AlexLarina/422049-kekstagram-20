@@ -27,6 +27,7 @@
   var effectLineElement = uploadImageOverlayElement.querySelector('.effect-level__line');
   var effectDepthElement = uploadImageOverlayElement.querySelector('.effect-level__depth');
   var effectPinElement = uploadImageOverlayElement.querySelector('.effect-level__pin');
+  var effectValueElement = uploadImageOverlayElement.querySelector('.effect-level__value');
 
   var removePreviousImageEffect = function () {
     var currentEffect = window.util.getModificator(uploadPreviewElement, 'effects__preview--');
@@ -43,7 +44,7 @@
 
   var addImageEffect = function (effect) {
     uploadPreviewElement.classList.add('effects__preview--' + effect);
-    setFullEffectDepth();
+    setFullEffectDepth(effect);
     effectSliderElement.classList.remove('hidden');
 
     if (effect === 'none') {
@@ -51,7 +52,13 @@
     }
   };
 
+  var writeEffectValue = function (effectValue) {
+    effectValueElement.setAttribute('value', effectValue);
+  };
+
   var setImageEffect = function (effect, depth) {
+    writeEffectValue(depth);
+
     switch (effect) {
       case Effects.CHROME:
         uploadPreviewElement.setAttribute('style',
@@ -72,26 +79,28 @@
             + 'px)');
         break;
       case Effects.HEAT:
+        var minHeat = 1;
         uploadPreviewElement.setAttribute('style',
             'filter: brightness('
-            + depth * (EFFECT_RANGE.HEAT.MAX - EFFECT_RANGE.HEAT.MIN) / 100
-            + 'px)');
+            + (minHeat + depth * (EFFECT_RANGE.HEAT.MAX - EFFECT_RANGE.HEAT.MIN) / 100)
+            + ')');
         break;
       default:
         uploadPreviewElement.removeAttribute('style', 'filter');
     }
   };
 
-  var setFullEffectDepth = function () {
+  var setFullEffectDepth = function (effect) {
     effectPinElement.style.left = '100%';
     effectDepthElement.style.width = '100%';
-    tuneEffectDepthHandler();
+    setImageEffect(effect, 100);
   };
 
   var tuneEffectDepthHandler = function () {
     var effectDepthPersentage = Math.round(
         effectDepthElement.offsetWidth * 100 / effectLineElement.offsetWidth
     );
+
     var currentEffect = window.util.getModificator(
         uploadPreviewElement, 'effects__preview--')
                           .split('--')[1];
