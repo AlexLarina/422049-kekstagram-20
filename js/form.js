@@ -29,17 +29,17 @@
   var showUploadFormHandler = function () {
     uploadImageOverlayElement.classList.remove('hidden');
 
-    effectsFieldsetElement.addEventListener('click', window.formEffect.applyEffectHandler);
+    effectsFieldsetElement.addEventListener('click', window.formEffect.effectClickHandler);
 
-    effectPinElement.addEventListener('mouseup', window.formEffect.tuneEffectDepthHandler);
+    effectPinElement.addEventListener('mouseup', window.formEffect.pinMouseUpHandler);
 
-    scaleFieldsetElement.addEventListener('click', window.formResize.resizePreviewHandler);
+    scaleFieldsetElement.addEventListener('click', window.formResize.scaleClickHandler);
 
     document.addEventListener('keydown', closeEscUploadFormHandler);
 
-    hashtagsInputElement.addEventListener('input', window.formValidation.hashtagValidationHandler);
+    hashtagsInputElement.addEventListener('input', window.formValidation.hashtagInputHandler);
 
-    commentInputElement.addEventListener('blur', window.formValidation.commentValidationHandler);
+    commentInputElement.addEventListener('blur', window.formValidation.commentBlurHandler);
   };
 
   var closeUploadFormHandler = function () {
@@ -48,17 +48,17 @@
 
     resetUploadForm();
 
-    effectsFieldsetElement.removeEventListener('click', window.formEffect.applyEffectHandler);
+    effectsFieldsetElement.removeEventListener('click', window.formEffect.effectClickHandler);
 
-    effectPinElement.removeEventListener('mouseup', window.formEffect.tuneEffectDepthHandler);
+    effectPinElement.removeEventListener('mouseup', window.formEffect.pinMouseUpHandler);
 
-    scaleFieldsetElement.removeEventListener('click', window.formResize.resizePreviewHandler);
+    scaleFieldsetElement.removeEventListener('click', window.formResize.scaleClickHandler);
 
     document.removeEventListener('keydown', closeEscUploadFormHandler);
 
-    hashtagsInputElement.removeEventListener('input', window.formValidation.hashtagValidationHandler);
+    hashtagsInputElement.removeEventListener('input', window.formValidation.hashtagInputHandler);
 
-    commentInputElement.removeEventListener('blur', window.formValidation.commentValidationHandler);
+    commentInputElement.removeEventListener('blur', window.formValidation.commentBlurHandler);
 
   };
 

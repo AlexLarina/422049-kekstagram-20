@@ -96,7 +96,7 @@
     setImageEffect(effect, 100);
   };
 
-  var tuneEffectDepthHandler = function () {
+  var pinMouseUpHandler = function () {
     var effectDepthPersentage = Math.round(
         effectDepthElement.offsetWidth * 100 / effectLineElement.offsetWidth
     );
@@ -107,7 +107,7 @@
     setImageEffect(currentEffect, effectDepthPersentage);
   };
 
-  var applyEffectHandler = function (evt) {
+  var effectClickHandler = function (evt) {
     if (evt.target
         && evt.target.matches('input[type="radio"]')) {
       removePreviousImageEffect();
@@ -133,7 +133,7 @@
 
       effectPinElement.style.left = pinPercentProperty + '%';
       effectDepthElement.style.width = pinPercentProperty + '%';
-      tuneEffectDepthHandler();
+      pinMouseUpHandler();
     };
 
     var mouseUpHandler = function (upEvt) {
@@ -148,8 +148,8 @@
   });
 
   window.formEffect = {
-    applyEffectHandler: applyEffectHandler,
-    tuneEffectDepthHandler: tuneEffectDepthHandler,
+    effectClickHandler: effectClickHandler,
+    pinMouseUpHandler: pinMouseUpHandler,
     setOriginal: setOriginalEffect
   };
 })();

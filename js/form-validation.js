@@ -29,7 +29,7 @@
     return errorRegex;
   };
 
-  var hashtagValidationHandler = function (evt) {
+  var hashtagInputHandler = function (evt) {
     var hashtags = evt.target.value
     .trim()
     .split(' ');
@@ -72,7 +72,7 @@
       '';
   };
 
-  var commentValidationHandler = function (evt) {
+  var commentBlurHandler = function (evt) {
     var comment = evt.target.value;
 
     var validityMessage = validateCommentLength(comment) ?
@@ -82,7 +82,7 @@
   };
 
   window.formValidation = {
-    hashtagValidationHandler: hashtagValidationHandler,
-    commentValidationHandler: commentValidationHandler
+    hashtagInputHandler: hashtagInputHandler,
+    commentBlurHandler: commentBlurHandler
   };
 })();

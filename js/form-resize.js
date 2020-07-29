@@ -50,7 +50,7 @@
     uploadPreviewImgElement.removeAttribute('style');
   };
 
-  var resizePreviewHandler = function (evt) {
+  var scaleClickHandler = function (evt) {
     if (evt.target
       && evt.target.matches('button')) {
       var scaleType = window.util.getModificator(evt.target, 'scale__control--')
@@ -60,7 +60,7 @@
   };
 
   window.formResize = {
-    resizePreviewHandler: resizePreviewHandler,
+    scaleClickHandler: scaleClickHandler,
     toDefault: resetScaleToDefault
   };
 })();
