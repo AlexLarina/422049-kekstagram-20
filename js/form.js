@@ -43,7 +43,15 @@
       document.removeEventListener('keydown', closeEscUploadFormHandler);
     });
 
+    hashtagsInputElement.addEventListener('focus', function () {
+      document.removeEventListener('keydown', closeEscUploadFormHandler);
+    });
+
     commentInputElement.addEventListener('blur', function () {
+      document.addEventListener('keydown', closeEscUploadFormHandler);
+    });
+
+    hashtagsInputElement.addEventListener('blur', function () {
       document.addEventListener('keydown', closeEscUploadFormHandler);
     });
   };
