@@ -31,16 +31,25 @@
     return errorModalElement;
   };
 
-  var closeEscModalHandler = function (evt, modal) {
-    if (evt.key === window.util.KEY_ESCAPE) {
-      modal.remove();
+  var closeEscModalHandler = function (evt) {
+    var modal = document.querySelector('.success') || document.querySelector('.error');
 
-      document.removeEventListener('keydown', closeEscModalHandler);
+    if (evt.key === window.util.KEY_ESCAPE && modal) {
+      modal.remove();
     }
+
+    document.removeEventListener('keydown', closeEscModalHandler);
+    document.removeEventListener('keydown', closeClickModalHandler);
   };
 
-  var closeClickModalHandler = function (modal) {
-    modal.remove();
+  var closeClickModalHandler = function () {
+    var modal = document.querySelector('.success') || document.querySelector('.error');
+
+    if (modal) {
+      modal.remove();
+    }
+
+    document.removeEventListener('keydown', closeEscModalHandler);
     document.removeEventListener('click', closeClickModalHandler);
   };
 
@@ -49,13 +58,8 @@
 
     document.body.appendChild(successModalElement);
 
-    document.addEventListener('keydown', function (evt) {
-      closeEscModalHandler(evt, successModalElement);
-    });
-
-    document.addEventListener('click', function () {
-      closeClickModalHandler(successModalElement);
-    });
+    document.addEventListener('keydown', closeEscModalHandler);
+    document.addEventListener('click', closeClickModalHandler);
   };
 
   var showErrorModalElement = function () {
@@ -63,13 +67,8 @@
 
     document.body.appendChild(errorModalElement);
 
-    document.addEventListener('keydown', function (evt) {
-      closeEscModalHandler(evt, errorModalElement);
-    });
-
-    document.addEventListener('click', function () {
-      closeClickModalHandler(errorModalElement);
-    });
+    document.addEventListener('keydown', closeEscModalHandler);
+    document.addEventListener('click', closeClickModalHandler);
   };
 
   window.modals = {
