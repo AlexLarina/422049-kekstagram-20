@@ -16,7 +16,7 @@
     TIMEOUT: 'Запрос не успел выполниться за '
   };
 
-  var load = function (URL, onSuccess, onError) {
+  var load = function (URL, successLoadHandler, errorLoadHandler) {
     var xhr = new XMLHttpRequest();
 
     xhr.responseType = 'json';
@@ -25,7 +25,7 @@
       var error;
       switch (xhr.status) {
         case StatusCodes.SUCCESS:
-          onSuccess(xhr.response);
+          successLoadHandler(xhr.response);
           break;
 
         case StatusCodes.ERROR_REQUEST:
@@ -43,16 +43,16 @@
       }
 
       if (error) {
-        onError(error);
+        errorLoadHandler(error);
       }
     });
 
     xhr.addEventListener('error', function () {
-      onError(ErrorMessage.CONNECTION_LOST);
+      errorLoadHandler(ErrorMessage.CONNECTION_LOST);
     });
 
     xhr.addEventListener('timeout', function () {
-      onError(ErrorMessage.TIMEOUT + xhr.timeout + 'мс');
+      errorLoadHandler(ErrorMessage.TIMEOUT + xhr.timeout + 'мс');
     });
 
     xhr.open('GET', URL);

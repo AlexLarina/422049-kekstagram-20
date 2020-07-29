@@ -13,11 +13,11 @@
     window.filter.filterClickHandler(evt, data, picturesContainerElement);
   });
 
-  var onError = function () {
+  var errorLoadHandler = function () {
 
   };
 
-  var onSuccess = function (data) {
+  var successLoadHandler = function (data) {
     var pictures = window.pictures.render(data);
     picturesContainerElement.appendChild(pictures);
 
@@ -28,7 +28,7 @@
     });
   };
 
-  window.dataLoad.load(URL, onSuccess, onError);
+  window.dataLoad.load(URL, successLoadHandler, errorLoadHandler);
 
   uploadImageElement.addEventListener('change', window.form.showFormHandler);
   closeImageFormElement.addEventListener('click', window.form.closeFormHandler);
