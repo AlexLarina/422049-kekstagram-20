@@ -19,7 +19,9 @@
   };
 
   var closeEscUploadFormHandler = function (evt) {
-    if (evt.key === window.util.KEY_ESCAPE) {
+    if (evt.key === window.util.KEY_ESCAPE &&
+        evt.target !== hashtagsInputElement &&
+        evt.target !== commentInputElement) {
       closeUploadFormHandler();
     }
   };
@@ -38,22 +40,6 @@
     hashtagsInputElement.addEventListener('input', window.formValidation.hashtagValidationHandler);
 
     commentInputElement.addEventListener('blur', window.formValidation.commentValidationHandler);
-
-    commentInputElement.addEventListener('focus', function () {
-      document.removeEventListener('keydown', closeEscUploadFormHandler);
-    });
-
-    hashtagsInputElement.addEventListener('focus', function () {
-      document.removeEventListener('keydown', closeEscUploadFormHandler);
-    });
-
-    commentInputElement.addEventListener('blur', function () {
-      document.addEventListener('keydown', closeEscUploadFormHandler);
-    });
-
-    hashtagsInputElement.addEventListener('blur', function () {
-      document.addEventListener('keydown', closeEscUploadFormHandler);
-    });
   };
 
   var closeUploadFormHandler = function () {
