@@ -39,11 +39,11 @@
     errorMessage = validateHashtagsQuantity(hashtags);
 
     for (var i = 0; i < hashtags.length; i++) {
-      var tag = hashtags[i];
+      var tag = hashtags[i].toLowerCase();
 
       for (var j = 0; j < i; j++) {
-        if (hashtags[j] === tag) {
-          errorMessage = 'Одинаковые теги';
+        if (hashtags[j].toLowerCase() === tag) {
+          errorMessage = 'Теги не должны повторяться. ';
           break;
         }
       }
