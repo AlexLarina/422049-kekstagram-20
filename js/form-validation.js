@@ -41,15 +41,17 @@
     for (var i = 0; i < hashtags.length; i++) {
       var tag = hashtags[i].toLowerCase();
 
-      for (var j = 0; j < i; j++) {
-        if (hashtags[j].toLowerCase() === tag) {
-          errorMessage = 'Теги не должны повторяться. ';
-          break;
+      if (tag) {
+        for (var j = 0; j < i; j++) {
+          if (hashtags[j].toLowerCase() === tag) {
+            errorMessage = 'Теги не должны повторяться. ';
+            break;
+          }
         }
-      }
 
-      if (applyHashtagValidationRegex(tag)) {
-        errorMessage = HashtagRegex[applyHashtagValidationRegex(tag)];
+        if (applyHashtagValidationRegex(tag)) {
+          errorMessage = HashtagRegex[applyHashtagValidationRegex(tag)];
+        }
       }
 
       if (errorMessage) {

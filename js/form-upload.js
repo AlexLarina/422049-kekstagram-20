@@ -9,10 +9,13 @@
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
-      if (xhr.status !== SUCCESS_STATUS_CODE) {
+
+      if (xhr.status === SUCCESS_STATUS_CODE) {
+        onSuccess(xhr.response);
+      } else {
         onError(xhr.response);
       }
-      onSuccess(xhr.response);
+
     });
 
     xhr.open('POST', URL);
